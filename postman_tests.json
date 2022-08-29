@@ -1,0 +1,232 @@
+{
+	"info": {
+		"_postman_id": "5f4bb524-e911-4fb9-bac0-62f4b66a7e06",
+		"name": "Car sensor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1909770"
+	},
+	"item": [
+		{
+			"name": "GetAllData",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URI_BASE}}/data/all",
+					"host": [
+						"{{URI_BASE}}"
+					],
+					"path": [
+						"data",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetDataById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URI_BASE}}/data/id/:id",
+					"host": [
+						"{{URI_BASE}}"
+					],
+					"path": [
+						"data",
+						"id",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "0",
+							"description": "Request sensor data with ID 0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetDataByDriver",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URI_BASE}}/data/driver/:driver",
+					"host": [
+						"{{URI_BASE}}"
+					],
+					"path": [
+						"data",
+						"driver",
+						":driver"
+					],
+					"variable": [
+						{
+							"key": "driver",
+							"value": "John"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SetEfficiency",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{URI_BASE}}/set/efficiency/id/:id?efficiency=true",
+					"host": [
+						"{{URI_BASE}}"
+					],
+					"path": [
+						"set",
+						"efficiency",
+						"id",
+						":id"
+					],
+					"query": [
+						{
+							"key": "efficiency",
+							"value": "true"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddOneEntry",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{URI_BASE}}/data/add/one?driver=Paul&temperature=18&speed=50",
+					"host": [
+						"{{URI_BASE}}"
+					],
+					"path": [
+						"data",
+						"add",
+						"one"
+					],
+					"query": [
+						{
+							"key": "driver",
+							"value": "Paul"
+						},
+						{
+							"key": "temperature",
+							"value": "18"
+						},
+						{
+							"key": "speed",
+							"value": "50"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddManyEntries",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\"driver\": \"Paul\", \"temperature\": 18, \"speed\": 50}, \n    {\"driver\": \"John\", \"temperature\": 20, \"speed\": 80}\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URI_BASE}}/data/add/many",
+					"host": [
+						"{{URI_BASE}}"
+					],
+					"path": [
+						"data",
+						"add",
+						"many"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteDataById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URI_BASE}}/data/id/:id",
+					"host": [
+						"{{URI_BASE}}"
+					],
+					"path": [
+						"data",
+						"id",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "0",
+							"description": "Request sensor data with ID 0"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", () => {",
+					"    pm.expect(pm.response.code).to.be.oneOf([200, 201])",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "PORT",
+			"value": "5000",
+			"type": "string"
+		},
+		{
+			"key": "URI_BASE",
+			"value": "http://localhost:{{PORT}}",
+			"type": "string"
+		}
+	]
+}
