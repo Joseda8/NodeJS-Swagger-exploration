@@ -1,0 +1,276 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Sensor data collector API",
+    "description": "API to gather information for several sensors in a car",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/data/all": {
+      "get": {
+        "tags": [
+          "Data collector"
+        ],
+        "summary": "Get all data",
+        "description": "Get all data from all sensor entries",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SensorDataArray"
+            }
+          }
+        }
+      }
+    },
+    "/data/id/{id}": {
+      "get": {
+        "tags": [
+          "Data collector"
+        ],
+        "summary": "Get data from registry",
+        "description": "Get data from a given by ID registry",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID for the sensor entry"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SensorData"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Data collector"
+        ],
+        "summary": "Delete given data",
+        "description": "Delete one data entry given by its ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID for the sensor entry"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/data/driver/{driver}": {
+      "get": {
+        "tags": [
+          "Data collector"
+        ],
+        "summary": "Get all data for a given driver",
+        "description": "Get all data from all sensor entries for a given driver",
+        "parameters": [
+          {
+            "name": "driver",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Driver name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SensorDataArray"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/data/add/one": {
+      "post": {
+        "tags": [
+          "Data collector"
+        ],
+        "summary": "Add new entry",
+        "description": "Add a new sensor data entry",
+        "parameters": [
+          {
+            "name": "driver",
+            "in": "query",
+            "description": "Driver name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "temperature",
+            "in": "query",
+            "description": "Engine temperature",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "speed",
+            "in": "query",
+            "description": "Car speed",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/data/add/many": {
+      "post": {
+        "tags": [
+          "Data collector"
+        ],
+        "summary": "Add many new entries",
+        "description": "Add an array of new sensor data entries",
+        "parameters": [
+          {
+            "name": "entries",
+            "in": "body",
+            "description": "Entries to add",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SensorDataArray"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/set/efficiency/id/{id}": {
+      "put": {
+        "tags": [
+          "Efficiency"
+        ],
+        "summary": "Set the efficiency value for a given entry",
+        "description": "Set the efficiency value for a given by ID entry",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID for the sensor entry"
+          },
+          {
+            "name": "efficiency",
+            "in": "query",
+            "description": "Efficient value",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "SensorDataAdd": {
+      "type": "object",
+      "properties": {
+        "driver": {
+          "type": "string",
+          "example": "Paul"
+        },
+        "temperature": {
+          "type": "number",
+          "example": 90
+        },
+        "speed": {
+          "type": "number",
+          "example": 50
+        }
+      }
+    },
+    "SensorDataAddArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SensorDataAdd"
+      }
+    },
+    "SensorData": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 0
+        },
+        "driver": {
+          "type": "string",
+          "example": "Paul"
+        },
+        "temperature": {
+          "type": "number",
+          "example": 90
+        },
+        "speed": {
+          "type": "number",
+          "example": 50
+        },
+        "date": {
+          "type": "string",
+          "example": "2022-08-22"
+        },
+        "time": {
+          "type": "string",
+          "example": "14:58:40"
+        },
+        "efficient": {
+          "type": "boolean",
+          "example": false
+        }
+      }
+    },
+    "SensorDataArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SensorData"
+      }
+    }
+  }
+}
