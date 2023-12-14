@@ -1,8 +1,13 @@
 # NodeJS Swagger
 Project to explore Swagger features for ExpressJS
 
-## Run
+## Dependencies 
+```sh
+npm install
 ```
+
+## Run
+```sh
 npm run swagger-autogen
 npm start
 ```
