@@ -172,7 +172,7 @@ module.exports = function (app) {
                 schema: { $ref: '#/definitions/SensorDataArray' }
             }
         */
-        const { entries } = req.body;
+        const entries = req.body;
 
         entries.forEach(element => {
             const { driver, temperature } = element;
